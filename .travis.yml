@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t sairampoosarla/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+ - docker run -e CI=true sairampoosarla/react-test npm test -- --coverage
+
+after_sucess:
+  - docker build -t sairampoosarla/multi-client ./client
+  - docker build -t sairampoosarla/multi-nginx ./nginx
+  - docker build -t sairampoosarla/multi-server ./server
+  - docker build -t sairampoosarla/multi-worker ./worker
+  # command for Travis CI to login to the docker hub for pushing the images
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --pasword-stdin
+
+  # pushing the docker images
+  - docker push multi-client
+  - docker push multi-nginx
+  - docker push multi-server
+  - docker push multi-worker
