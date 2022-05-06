@@ -14,7 +14,7 @@ after_sucess:
   - docker build -t sairampoosarla/multi-server ./server
   - docker build -t sairampoosarla/multi-worker ./worker
   # command for Travis CI to login to the docker hub for pushing the images
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --pasword-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   # pushing the docker images
   - docker push multi-client
