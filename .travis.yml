@@ -21,3 +21,15 @@ after_sucess:
   - docker push sairampoosarla/multi-nginx
   - docker push sairampoosarla/multi-server
   - docker push sairampoosarla/multi-worker
+
+deploy:
+  provider: elacticbeanstalk
+  region: "us-east-2"
+  app: "multi-docker"
+  env: "Multidocker-env"
+  bucket_name: "elasticbeanstalk-us-east-2-787922124188"
+  bucket_path: "docker-multi"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
